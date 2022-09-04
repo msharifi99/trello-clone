@@ -1,19 +1,30 @@
 import { Column } from "@types";
 import { boardContext } from "contexts/board";
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import findItemByProperty from "utils/findItemByProperty";
 
 function useColumn(id: Column["id"]) {
-  const { columns, editColumn, addCard } = useContext(boardContext);
+  const boardContextValues = useContext(boardContext);
 
-  const column = findItemByProperty("id", id, columns);
+  const column = findItemByProperty("id", id, boardContextValues.columns);
   if (!column) throw new Error("Column not found");
+
+  const editColumn = useCallback(
+    (updatedFields: Parameters<typeof boardContextValues.editColumn>[1]) =>
+      boardContextValues.editColumn(id, updatedFields),
+    [boardContextValues, id]
+  );
+
+  const addCard = useCallback(
+    (card: Parameters<typeof boardContextValues.addCard>[0]) =>
+      boardContextValues.addCard(card, id),
+    [boardContextValues, id]
+  );
 
   return {
     column,
-    editColumn: (updatedFields: Parameters<typeof editColumn>[1]) =>
-      editColumn(id, updatedFields),
-    addCard: (card: Parameters<typeof addCard>[0]) => addCard(card, id),
+    editColumn,
+    addCard,
   };
 }
 
