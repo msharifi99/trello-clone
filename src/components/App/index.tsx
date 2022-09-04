@@ -1,15 +1,15 @@
 import styled from "@emotion/styled";
 import Board from "components/Board";
-import { spacings } from "styles/variables";
+import { mainContainerPadding } from "styles/variables";
 import Header from "./components/Header";
 
 const StyledContainer = styled.div`
   display: grid;
-  grid-template-rows: 3rem 1fr;
+  grid-template-rows: 3.5rem 1fr;
 `;
 
 const StyledMain = styled.main`
-  padding: ${spacings.md};
+  padding: ${mainContainerPadding.sm};
 `;
 
 function App() {
