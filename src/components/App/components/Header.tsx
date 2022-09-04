@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
-import { spacings, fontSizes, headerHeight } from "styles/variables";
+import { spacings, fontSizes } from "styles/variables";
 
 const StyledHeader = styled.header`
-  height: ${headerHeight};
+  height: 100%;
   padding: ${spacings.sm} ${spacings.md};
   display: flex;
   align-items: center;

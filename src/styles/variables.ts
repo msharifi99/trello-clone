@@ -10,6 +10,4 @@ const fontSizes = {
   lg: "1.5rem",
 } as const;
 
-const headerHeight = "45px";
-
-export { spacings, fontSizes, headerHeight };
+export { spacings, fontSizes };
