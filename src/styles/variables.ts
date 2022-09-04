@@ -11,4 +11,16 @@ const fontSizes = {
   lg: "1.5rem",
 } as const;
 
-export { spacings, fontSizes };
+const breakpoints = {
+  sm: "480px",
+};
+
+const headerHeight = {
+  sm: "3.5rem",
+};
+
+const mainContainerPadding = {
+  sm: spacings.sm,
+};
+
+export { spacings, fontSizes, breakpoints, headerHeight, mainContainerPadding };
