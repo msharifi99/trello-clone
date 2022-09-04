@@ -1,6 +1,12 @@
 import { Card, Column } from "@types";
-import { createContext, useCallback, useMemo, useState } from "react";
-import findById from "utils/findById";
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
+import findItemByProperty from "utils/findItemByProperty";
 
 type BoardContext = {
   columns: Column[];
@@ -35,7 +41,10 @@ const boardContext = createContext<BoardContext>({
   editColumn: noop,
 });
 
-function BoardProvider() {
+type BoardProviderProps = {
+  children: ReactNode;
+};
+function BoardProvider({ children }: BoardProviderProps): JSX.Element {
   const [columns, setColumns] = useState<BoardContext["columns"]>([]);
   const [cardsById, setCardsById] = useState<BoardContext["cardsById"]>({});
 
@@ -47,7 +56,7 @@ function BoardProvider() {
     }));
 
     setColumns((previousColumns) => {
-      const column = findById(columnId, previousColumns);
+      const column = findItemByProperty("id", columnId, previousColumns);
 
       if (!column) throw new Error("Column not found");
 
@@ -78,10 +87,18 @@ function BoardProvider() {
       if (sourceColumnId === targetColumnId) return;
 
       setColumns((previousColumns) => {
-        const sourceColumn = findById(sourceColumnId, previousColumns);
+        const sourceColumn = findItemByProperty(
+          "id",
+          sourceColumnId,
+          previousColumns
+        );
         if (!sourceColumn) throw new Error("Source column not found");
 
-        const targetColumn = findById(targetColumnId, previousColumns);
+        const targetColumn = findItemByProperty(
+          "id",
+          targetColumnId,
+          previousColumns
+        );
         if (!targetColumn) throw new Error("Target column not found");
 
         const newSourceColumn: Column = {
@@ -107,7 +124,7 @@ function BoardProvider() {
   const removeCard: BoardContext["removeCard"] = useCallback(
     (id, parentColumnId) => {
       setColumns((previousColumns) => {
-        const parentColumn = findById(id, previousColumns);
+        const parentColumn = findItemByProperty("id", id, previousColumns);
         if (!parentColumn) throw new Error("Parent column not found");
 
         const newParentColumn: Column = {
@@ -130,7 +147,7 @@ function BoardProvider() {
 
   const editColumn: BoardContext["editColumn"] = useCallback(
     (id, updatedFields) => {
-      const column = findById(id, columns);
+      const column = findItemByProperty("id", id, columns);
       if (!column) throw new Error("Column not found");
 
       setColumns((previousColumns) =>
@@ -167,8 +184,13 @@ function BoardProvider() {
     ]
   );
 
-  return <boardContext.Provider value={contextValue}></boardContext.Provider>;
+  return (
+    <boardContext.Provider value={contextValue}>
+      {children}
+    </boardContext.Provider>
+  );
 }
 
 export default BoardProvider;
 export { boardContext };
+export type { BoardContext };
