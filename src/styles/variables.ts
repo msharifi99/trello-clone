@@ -7,7 +7,7 @@ const spacings = {
 const fontSizes = {
   sm: "0.5 rem",
   md: "1rem",
-  lg: "1.5rem",
+  lg: "2rem",
 } as const;
 
 export { spacings, fontSizes };
