@@ -55,16 +55,8 @@ type BoardProviderProps = {
   children: ReactNode;
 };
 function BoardProvider({ children }: BoardProviderProps): JSX.Element {
-  const [columns, setColumns] = useState<BoardContext["columns"]>([
-    { cardsId: ["card_1"], id: "column_12", title: "Dummy Column" },
-  ]);
-  const [cardsById, setCardsById] = useState<BoardContext["cardsById"]>({
-    card_1: {
-      description: "Dummy Description",
-      id: "card_1",
-      title: "Dummy title",
-    },
-  });
+  const [columns, setColumns] = useState<BoardContext["columns"]>([]);
+  const [cardsById, setCardsById] = useState<BoardContext["cardsById"]>({});
 
   const [editingColumnId, setEditingColumnId] =
     useState<BoardContext["editingColumnId"]>();
@@ -91,6 +83,9 @@ function BoardProvider({ children }: BoardProviderProps): JSX.Element {
         currentColumn.id === column.id ? newColumn : currentColumn
       );
     });
+
+    setEditingColumnId(undefined);
+    setEditingCardId(undefined);
 
     return newCard;
   }, []);
