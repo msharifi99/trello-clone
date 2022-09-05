@@ -1,12 +1,15 @@
 import { Card, CardWithoutId, Column, ColumnWithoutId } from "@types";
+import useLocalStorage from "hooks/useLocalStorage";
 import {
   createContext,
   ReactNode,
   useCallback,
+  useEffect,
   useMemo,
   useReducer,
   useState,
 } from "react";
+import { State } from "./@types";
 import mainReducer from "./reducers";
 
 type BoardContext = {
@@ -36,11 +39,21 @@ const boardContext = createContext<BoardContext | null>(null);
 type BoardProviderProps = {
   children: ReactNode;
 };
+
 function BoardProvider({ children }: BoardProviderProps): JSX.Element {
-  const [{ columns, cardsById }, dispatch] = useReducer(mainReducer, {
-    columns: [],
-    cardsById: {},
-  });
+  const { set, get } = useLocalStorage<State>("test-board");
+
+  const [{ columns, cardsById }, dispatch] = useReducer(
+    mainReducer,
+    get() || {
+      columns: [],
+      cardsById: {},
+    }
+  );
+
+  useEffect(() => {
+    set({ cardsById, columns });
+  }, [columns, cardsById, set]);
 
   const [editingColumnId, setEditingColumnId] =
     useState<BoardContext["editingColumnId"]>();
