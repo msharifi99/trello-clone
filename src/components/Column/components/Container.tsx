@@ -1,18 +1,25 @@
 import styled from "@emotion/styled";
+import Input from "components/Input";
 import { ComponentProps, PropsWithChildren } from "react";
-import { fontSizes, spacings } from "styles/variables";
+import { fontSizes, mainContainerPadding, spacings } from "styles/variables";
 
 const StyledContainer = styled.section`
+  width: calc(100vw - ${mainContainerPadding.sm} * 2);
   height: 100%;
   padding: ${spacings.sm};
-  background-color: #ebecf0;
-  border-radius: 5px;
+  background-color: #f4f5f7;
+  border: 1px solid black;
+  border-radius: 2px;
   overflow: auto;
 `;
 
 const StyledTitle = styled.h2`
   font-size: ${fontSizes.md};
   margin: 0;
+`;
+
+const StyledActionButton = styled.button`
+  margin-top: ${spacings.xs};
 `;
 
 type ContainerProps = PropsWithChildren<{
@@ -39,16 +46,18 @@ function ColumnContainer({
         {!isEditing ? (
           <>
             <StyledTitle>{columnTitle}</StyledTitle>
-            <button onClick={onEditColumnClick}>Edit Column</button>
+            <StyledActionButton onClick={onEditColumnClick}>
+              Edit
+            </StyledActionButton>
           </>
         ) : (
           <form onSubmit={onSave}>
-            <input
+            <Input
               value={columnTitleInputValue}
               onChange={onColumnTitleInputChange}
               autoFocus
             />
-            <button type="submit">Save</button>
+            <StyledActionButton type="submit">Save</StyledActionButton>
           </form>
         )}
       </header>
