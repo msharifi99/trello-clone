@@ -7,7 +7,7 @@ const spacings = {
 } as const;
 
 const fontSizes = {
-  sm: "0.5 rem",
+  sm: "0.5rem",
   md: "1rem",
   lg: "1.5rem",
 } as const;
