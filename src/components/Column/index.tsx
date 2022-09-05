@@ -2,6 +2,8 @@ import { Column as ColumnType } from "@types";
 import Card from "components/Card";
 import useColumn from "hooks/useColumn";
 import { useState } from "react";
+import { spacings } from "styles/variables";
+import AddCardButton from "./components/AddCardButton";
 import ColumnContainer from "./components/Container";
 
 type ColumnProps = {
@@ -9,13 +11,28 @@ type ColumnProps = {
 };
 
 function Column({ id }: ColumnProps): JSX.Element {
-  const { column, editColumn, isEditing, setIsEditing } = useColumn(id);
+  const {
+    column,
+    editColumn,
+    isEditing,
+    setIsEditing,
+    addCard,
+    setEditingCard,
+  } = useColumn(id);
 
   const [columnInputTitle, setColumnInputTitle] = useState(column.title);
 
   const handleColumnEdit = () => {
     editColumn({ title: columnInputTitle });
     setIsEditing(false);
+  };
+
+  const handleAddCard = () => {
+    const card = addCard({
+      description: "New Description",
+      title: "New Title",
+    });
+    setEditingCard(card.id);
   };
 
   return (
@@ -33,7 +50,7 @@ function Column({ id }: ColumnProps): JSX.Element {
             <Card id={id} />
           </li>
         ))}
-      </ol>
+      <AddCardButton onClick={handleAddCard} />
     </ColumnContainer>
   );
 }
