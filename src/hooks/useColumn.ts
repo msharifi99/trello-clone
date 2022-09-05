@@ -34,6 +34,7 @@ function useColumn(id: Column["id"]) {
     addCard,
     setIsEditing,
     isEditing: boardContextValues.editingColumnId === id,
+    setEditingCard: boardContextValues.setEditingCardId,
   };
 }
 
