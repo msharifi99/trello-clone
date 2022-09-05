@@ -49,9 +49,10 @@ function BoardProvider({ children }: BoardProviderProps): JSX.Element {
 
   const addCard: BoardContext["addCard"] = useCallback((card, columnId) => {
     const id = `card_${Date.now()}`;
+    const newCard = { id, ...card };
     setCardsById((previousCards) => ({
       ...previousCards,
-      [id]: { id, ...card },
+      [id]: newCard,
     }));
 
     setColumns((previousColumns) => {
@@ -65,6 +66,8 @@ function BoardProvider({ children }: BoardProviderProps): JSX.Element {
         currentColumn.id === column.id ? newColumn : currentColumn
       );
     });
+
+    return newCard;
   }, []);
 
   const editCard: BoardContext["editCard"] = useCallback(
@@ -145,7 +148,9 @@ function BoardProvider({ children }: BoardProviderProps): JSX.Element {
 
   const addColumn: BoardContext["addColumn"] = useCallback((column) => {
     const id = `column_${Date.now()}`;
-    setColumns((previousColumns) => previousColumns.concat({ id, ...column }));
+    const newColumn = { id, ...column };
+    setColumns((previousColumns) => previousColumns.concat(newColumn));
+    return newColumn;
   }, []);
 
   const editColumn: BoardContext["editColumn"] = useCallback(
