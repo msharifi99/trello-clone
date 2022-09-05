@@ -21,10 +21,19 @@ function useColumn(id: Column["id"]) {
     [boardContextValues, id]
   );
 
+  const setIsEditing = useCallback(
+    (isEditing: boolean) => {
+      boardContextValues.setEditingColumnId(isEditing ? id : undefined);
+    },
+    [boardContextValues, id]
+  );
+
   return {
     column,
     editColumn,
     addCard,
+    setIsEditing,
+    isEditing: boardContextValues.editingColumnId === id,
   };
 }
 
