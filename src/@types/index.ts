@@ -12,4 +12,6 @@ type Column = {
 
 type CardWithoutId = Omit<Card, "id">;
 
-export type { Card, Column, CardWithoutId };
+type ColumnWithoutId = Omit<Column, "id">;
+
+export type { Card, Column, CardWithoutId, ColumnWithoutId };
