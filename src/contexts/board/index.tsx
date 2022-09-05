@@ -11,7 +11,7 @@ import findItemByProperty from "utils/findItemByProperty";
 type BoardContext = {
   columns: Column[];
   cardsById: Record<Card["id"], Card>;
-  addCard: (card: CardWithoutId, columnId: Column["id"]) => void;
+  addCard: (card: CardWithoutId, columnId: Column["id"]) => Card;
   editCard: (id: Card["id"], updatedFields: Partial<CardWithoutId>) => void;
   moveCard: (
     id: Card["id"],
@@ -19,16 +19,21 @@ type BoardContext = {
     targetColumnId: Column["id"]
   ) => void;
   removeCard: (id: Card["id"], parentColumnId: Column["id"]) => void;
-  addColumn: (column: Omit<Column, "id">) => void;
+  addColumn: (column: Omit<Column, "id">) => Column;
   editColumn: (
     id: Column["id"],
     updatedFields: Partial<ColumnWithoutId>
   ) => void;
+  setEditingColumnId: (id: Column["id"]) => void;
+  editingColumnId: Column["id"] | undefined;
 };
 
 type ColumnWithoutId = Omit<Column, "id">;
 
-const noop = () => {};
+const noop = () => {
+  return undefined!;
+};
+
 const boardContext = createContext<BoardContext>({
   columns: [],
   cardsById: {},
@@ -38,14 +43,27 @@ const boardContext = createContext<BoardContext>({
   removeCard: noop,
   addColumn: noop,
   editColumn: noop,
+  setEditingColumnId: noop,
+  editingColumnId: undefined,
 });
 
 type BoardProviderProps = {
   children: ReactNode;
 };
 function BoardProvider({ children }: BoardProviderProps): JSX.Element {
-  const [columns, setColumns] = useState<BoardContext["columns"]>([]);
-  const [cardsById, setCardsById] = useState<BoardContext["cardsById"]>({});
+  const [columns, setColumns] = useState<BoardContext["columns"]>([
+    { cardsId: ["card_1"], id: "column_12", title: "Dummy Column" },
+  ]);
+  const [cardsById, setCardsById] = useState<BoardContext["cardsById"]>({
+    card_1: {
+      description: "Dummy Description",
+      id: "card_1",
+      title: "Dummy title",
+    },
+  });
+
+  const [editingColumnId, setEditingColumnId] =
+    useState<BoardContext["editingColumnId"]>();
 
   const addCard: BoardContext["addCard"] = useCallback((card, columnId) => {
     const id = `card_${Date.now()}`;
@@ -179,16 +197,19 @@ function BoardProvider({ children }: BoardProviderProps): JSX.Element {
       removeCard,
       addColumn,
       editColumn,
+      setEditingColumnId,
+      editingColumnId,
     }),
     [
-      cardsById,
       columns,
+      cardsById,
       addCard,
-      addColumn,
       editCard,
-      editColumn,
       moveCard,
       removeCard,
+      addColumn,
+      editColumn,
+      editingColumnId,
     ]
   );
 
