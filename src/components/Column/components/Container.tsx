@@ -13,6 +13,10 @@ const StyledContainer = styled.section`
   overflow: auto;
 `;
 
+const StyledHeader = styled.header`
+  margin-bottom: ${spacings.sm};
+`;
+
 const StyledTitle = styled.h2`
   font-size: ${fontSizes.md};
   margin: 0;
@@ -42,7 +46,7 @@ function ColumnContainer({
 }: ContainerProps) {
   return (
     <StyledContainer>
-      <header>
+      <StyledHeader>
         {!isEditing ? (
           <>
             <StyledTitle>{columnTitle}</StyledTitle>
@@ -60,7 +64,8 @@ function ColumnContainer({
             <StyledActionButton type="submit">Save</StyledActionButton>
           </form>
         )}
-      </header>
+        <hr />
+      </StyledHeader>
 
       {children}
     </StyledContainer>

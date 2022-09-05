@@ -1,3 +1,4 @@
+import styled from "@emotion/styled";
 import { Column as ColumnType } from "@types";
 import Card from "components/Card";
 import useColumn from "hooks/useColumn";
@@ -5,6 +6,10 @@ import { useState } from "react";
 import { spacings } from "styles/variables";
 import AddCardButton from "./components/AddCardButton";
 import ColumnContainer from "./components/Container";
+
+const CardList = styled.ol`
+  margin-bottom: ${spacings.sm};
+`;
 
 type ColumnProps = {
   id: ColumnType["id"];
@@ -44,12 +49,13 @@ function Column({ id }: ColumnProps): JSX.Element {
       onEditColumnClick={() => setIsEditing(true)}
       onSave={handleColumnEdit}
     >
-      <ol>
+      <CardList>
         {column.cardsId.map((id) => (
           <li>
             <Card id={id} />
           </li>
         ))}
+      </CardList>
       <AddCardButton onClick={handleAddCard} />
     </ColumnContainer>
   );
