@@ -24,8 +24,8 @@ type BoardContext = {
     id: Column["id"],
     updatedFields: Partial<ColumnWithoutId>
   ) => void;
-  setEditingColumnId: (id: Column["id"]) => void;
   editingColumnId: Column["id"] | undefined;
+  setEditingColumnId: (id: BoardContext["editingColumnId"]) => void;
 };
 
 type ColumnWithoutId = Omit<Column, "id">;
