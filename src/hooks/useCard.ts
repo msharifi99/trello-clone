@@ -36,6 +36,7 @@ function useCard(id: Card["id"]) {
 
   return {
     card: boardContextValues.cardsById[id],
+    parentColumn,
     editCard,
     removeCard,
     moveCard,
