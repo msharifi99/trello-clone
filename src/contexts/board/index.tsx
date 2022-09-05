@@ -124,7 +124,11 @@ function BoardProvider({ children }: BoardProviderProps): JSX.Element {
   const removeCard: BoardContext["removeCard"] = useCallback(
     (id, parentColumnId) => {
       setColumns((previousColumns) => {
-        const parentColumn = findItemByProperty("id", id, previousColumns);
+        const parentColumn = findItemByProperty(
+          "id",
+          parentColumnId,
+          previousColumns
+        );
         if (!parentColumn) throw new Error("Parent column not found");
 
         const newParentColumn: Column = {
