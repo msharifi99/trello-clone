@@ -26,6 +26,8 @@ type BoardContext = {
   ) => void;
   editingColumnId: Column["id"] | undefined;
   setEditingColumnId: (id: BoardContext["editingColumnId"]) => void;
+  editingCardId: Card["id"] | undefined;
+  setEditingCardId: (id: BoardContext["editingCardId"]) => void;
 };
 
 type ColumnWithoutId = Omit<Column, "id">;
@@ -45,6 +47,8 @@ const boardContext = createContext<BoardContext>({
   editColumn: noop,
   setEditingColumnId: noop,
   editingColumnId: undefined,
+  setEditingCardId: noop,
+  editingCardId: undefined,
 });
 
 type BoardProviderProps = {
@@ -63,6 +67,9 @@ function BoardProvider({ children }: BoardProviderProps): JSX.Element {
   });
 
   const [editingColumnId, setEditingColumnId] =
+    useState<BoardContext["editingColumnId"]>();
+
+  const [editingCardId, setEditingCardId] =
     useState<BoardContext["editingColumnId"]>();
 
   const addCard: BoardContext["addCard"] = useCallback((card, columnId) => {
@@ -199,6 +206,8 @@ function BoardProvider({ children }: BoardProviderProps): JSX.Element {
       editColumn,
       setEditingColumnId,
       editingColumnId,
+      editingCardId,
+      setEditingCardId,
     }),
     [
       columns,
@@ -210,6 +219,7 @@ function BoardProvider({ children }: BoardProviderProps): JSX.Element {
       addColumn,
       editColumn,
       editingColumnId,
+      editingCardId,
     ]
   );
 

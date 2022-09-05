@@ -34,12 +34,21 @@ function useCard(id: Card["id"]) {
     [boardContextValues, id, parentColumn.id]
   );
 
+  const setIsEditing = useCallback(
+    (isEditing: boolean) => {
+      boardContextValues.setEditingCardId(isEditing ? id : undefined);
+    },
+    [boardContextValues, id]
+  );
+
   return {
     card: boardContextValues.cardsById[id],
     parentColumn,
     editCard,
     removeCard,
     moveCard,
+    setIsEditing,
+    isEditing: boardContextValues.editingCardId === id,
   };
 }
 
