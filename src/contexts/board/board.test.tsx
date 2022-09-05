@@ -3,6 +3,12 @@ import { useContext } from "react";
 import { act } from "react-dom/test-utils";
 import findItemByProperty from "utils/findItemByProperty";
 import BoardProvider, { boardContext } from "./index";
+import useLocalStorage from "hooks/useLocalStorage";
+
+jest.mock("hooks/useLocalStorage", () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
 
 function renderBoardContextHook() {
   return renderHook(
@@ -20,6 +26,13 @@ function renderBoardContextHook() {
     }
   );
 }
+
+beforeEach(() => {
+  (useLocalStorage as jest.MockedFn<any>).mockImplementation(() => ({
+    get: () => {},
+    set: () => {},
+  }));
+});
 
 test("add column with provided information", () => {
   const { result } = renderBoardContextHook();
