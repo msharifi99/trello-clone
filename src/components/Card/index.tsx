@@ -1,6 +1,7 @@
 import { Card as CardType } from "@types";
 import useCard from "hooks/useCard";
-import { useState } from "react";
+import { ComponentProps, useState } from "react";
+import ColumnsSelect from "./components/ColumnsSelect";
 import CardContainer, { CardContainerProps } from "./components/Container";
 
 type CardProps = {
@@ -8,10 +9,22 @@ type CardProps = {
 };
 
 function Card({ id }: CardProps): JSX.Element {
-  const { card, editCard, removeCard, isEditing, setIsEditing } = useCard(id);
+  const {
+    card,
+    parentColumn,
+    moveCard,
+    editCard,
+    removeCard,
+    isEditing,
+    setIsEditing,
+  } = useCard(id);
 
   const [cardTitle, setTitleInput] = useState(card.title);
   const [cardDescription, setDescriptionInput] = useState(card.description);
+
+  const handleMoveCard: ComponentProps<"select">["onChange"] = (e) => {
+    moveCard(e.target.value);
+  };
 
   const handleEditCard = () => {
     editCard({ description: cardDescription, title: cardTitle });
@@ -43,7 +56,12 @@ function Card({ id }: CardProps): JSX.Element {
       onInputChange={handleOnInputChange}
       onRemove={removeCard}
       onSave={handleEditCard}
-    ></CardContainer>
+    >
+      <ColumnsSelect
+        excludeColumn={parentColumn.id}
+        onColumnChange={handleMoveCard}
+      />
+    </CardContainer>
   );
 }
 
