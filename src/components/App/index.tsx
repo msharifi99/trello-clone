@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import Board from "components/Board";
+import BoardProvider from "contexts/board";
 import { mainContainerPadding } from "styles/variables";
 import Header from "./components/Header";
 
@@ -17,7 +18,9 @@ function App() {
     <StyledContainer>
       <Header />
       <StyledMain>
-        <Board />
+        <BoardProvider>
+          <Board />
+        </BoardProvider>
       </StyledMain>
     </StyledContainer>
   );
