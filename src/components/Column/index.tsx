@@ -1,17 +1,32 @@
 import { Column as ColumnType } from "@types";
 import Card from "components/Card";
 import useColumn from "hooks/useColumn";
-import Container from "./Container";
+import { useState } from "react";
+import ColumnContainer from "./components/Container";
 
 type ColumnProps = {
   id: ColumnType["id"];
 };
 
 function Column({ id }: ColumnProps): JSX.Element {
-  const { column } = useColumn(id);
+  const { column, editColumn, isEditing, setIsEditing } = useColumn(id);
+
+  const [columnInputTitle, setColumnInputTitle] = useState(column.title);
+
+  const handleColumnEdit = () => {
+    editColumn({ title: columnInputTitle });
+    setIsEditing(false);
+  };
 
   return (
-    <Container title={column.title}>
+    <ColumnContainer
+      columnTitle={column.title}
+      isEditing={isEditing}
+      columnTitleInputValue={columnInputTitle}
+      onColumnTitleInputChange={(e) => setColumnInputTitle(e.target.value)}
+      onEditColumnClick={() => setIsEditing(true)}
+      onSave={handleColumnEdit}
+    >
       <ol>
         {column.cardsId.map((id) => (
           <li>
@@ -19,7 +34,7 @@ function Column({ id }: ColumnProps): JSX.Element {
           </li>
         ))}
       </ol>
-    </Container>
+    </ColumnContainer>
   );
 }
 
