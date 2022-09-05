@@ -5,6 +5,9 @@ import { useCallback, useContext, useMemo } from "react";
 function useCard(id: Card["id"]) {
   const boardContextValues = useContext(boardContext);
 
+  if (!boardContextValues)
+    throw new Error("useCard should be used under Board Context");
+
   if (!boardContextValues.cardsById[id]) throw new Error("Card does not exist");
 
   const parentColumn = useMemo(

@@ -5,9 +5,20 @@ import findItemByProperty from "utils/findItemByProperty";
 import BoardProvider, { boardContext } from "./index";
 
 function renderBoardContextHook() {
-  return renderHook(() => useContext(boardContext), {
-    wrapper: BoardProvider,
-  });
+  return renderHook(
+    () => {
+      const boardContextValues = useContext(boardContext);
+      if (!boardContextValues)
+        throw new Error(
+          "useContext should be used under Board context provider"
+        );
+
+      return boardContextValues;
+    },
+    {
+      wrapper: BoardProvider,
+    }
+  );
 }
 
 test("add column with provided information", () => {

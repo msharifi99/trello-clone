@@ -6,6 +6,9 @@ import findItemByProperty from "utils/findItemByProperty";
 function useColumn(id: Column["id"]) {
   const boardContextValues = useContext(boardContext);
 
+  if (!boardContextValues)
+    throw new Error("useColumn should be used under Board Context");
+
   const column = findItemByProperty("id", id, boardContextValues.columns);
   if (!column) throw new Error("Column not found");
 

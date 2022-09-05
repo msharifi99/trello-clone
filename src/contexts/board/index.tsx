@@ -1,12 +1,13 @@
-import { Card, CardWithoutId, Column } from "@types";
+import { Card, CardWithoutId, Column, ColumnWithoutId } from "@types";
 import {
   createContext,
   ReactNode,
   useCallback,
   useMemo,
+  useReducer,
   useState,
 } from "react";
-import findItemByProperty from "utils/findItemByProperty";
+import mainReducer from "./reducers";
 
 type BoardContext = {
   columns: Column[];
@@ -30,33 +31,16 @@ type BoardContext = {
   setEditingCardId: (id: BoardContext["editingCardId"]) => void;
 };
 
-type ColumnWithoutId = Omit<Column, "id">;
-
-const noop = () => {
-  return undefined!;
-};
-
-const boardContext = createContext<BoardContext>({
-  columns: [],
-  cardsById: {},
-  addCard: noop,
-  editCard: noop,
-  moveCard: noop,
-  removeCard: noop,
-  addColumn: noop,
-  editColumn: noop,
-  setEditingColumnId: noop,
-  editingColumnId: undefined,
-  setEditingCardId: noop,
-  editingCardId: undefined,
-});
+const boardContext = createContext<BoardContext | null>(null);
 
 type BoardProviderProps = {
   children: ReactNode;
 };
 function BoardProvider({ children }: BoardProviderProps): JSX.Element {
-  const [columns, setColumns] = useState<BoardContext["columns"]>([]);
-  const [cardsById, setCardsById] = useState<BoardContext["cardsById"]>({});
+  const [{ columns, cardsById }, dispatch] = useReducer(mainReducer, {
+    columns: [],
+    cardsById: {},
+  });
 
   const [editingColumnId, setEditingColumnId] =
     useState<BoardContext["editingColumnId"]>();
@@ -66,22 +50,17 @@ function BoardProvider({ children }: BoardProviderProps): JSX.Element {
 
   const addCard: BoardContext["addCard"] = useCallback((card, columnId) => {
     const id = `card_${Date.now()}`;
-    const newCard = { id, ...card };
-    setCardsById((previousCards) => ({
-      ...previousCards,
-      [id]: newCard,
-    }));
+    const newCard = {
+      id,
+      ...card,
+    };
 
-    setColumns((previousColumns) => {
-      const column = findItemByProperty("id", columnId, previousColumns);
-
-      if (!column) throw new Error("Column not found");
-
-      const newColumn = { ...column, cardsId: column.cardsId.concat(id) };
-
-      return previousColumns.map((currentColumn) =>
-        currentColumn.id === column.id ? newColumn : currentColumn
-      );
+    dispatch({
+      type: "ADD_CARD",
+      payload: {
+        ...newCard,
+        parentColumnId: columnId,
+      },
     });
 
     setEditingColumnId(undefined);
@@ -93,13 +72,7 @@ function BoardProvider({ children }: BoardProviderProps): JSX.Element {
   const editCard: BoardContext["editCard"] = useCallback(
     (id, updatedFields) => {
       if (!cardsById[id]) throw new Error("Card not found");
-      setCardsById((previousCards) => ({
-        ...previousCards,
-        [id]: {
-          ...previousCards[id],
-          ...updatedFields,
-        },
-      }));
+      dispatch({ type: "EDIT_CARD", payload: { id, ...updatedFields } });
     },
     [cardsById]
   );
@@ -107,37 +80,9 @@ function BoardProvider({ children }: BoardProviderProps): JSX.Element {
   const moveCard: BoardContext["moveCard"] = useCallback(
     (id, sourceColumnId, targetColumnId) => {
       if (sourceColumnId === targetColumnId) return;
-
-      setColumns((previousColumns) => {
-        const sourceColumn = findItemByProperty(
-          "id",
-          sourceColumnId,
-          previousColumns
-        );
-        if (!sourceColumn) throw new Error("Source column not found");
-
-        const targetColumn = findItemByProperty(
-          "id",
-          targetColumnId,
-          previousColumns
-        );
-        if (!targetColumn) throw new Error("Target column not found");
-
-        const newSourceColumn: Column = {
-          ...sourceColumn,
-          cardsId: sourceColumn.cardsId.filter((cardId) => cardId !== id),
-        };
-
-        const newTargetColumn: Column = {
-          ...targetColumn,
-          cardsId: targetColumn.cardsId.concat(id),
-        };
-
-        return previousColumns.map((column) => {
-          if (column.id === sourceColumnId) return newSourceColumn;
-          if (column.id === targetColumn.id) return newTargetColumn;
-          return column;
-        });
+      dispatch({
+        type: "MOVE_CARD",
+        payload: { id, sourceColumnId, targetColumnId },
       });
     },
     []
@@ -145,22 +90,12 @@ function BoardProvider({ children }: BoardProviderProps): JSX.Element {
 
   const removeCard: BoardContext["removeCard"] = useCallback(
     (id, parentColumnId) => {
-      setColumns((previousColumns) => {
-        const parentColumn = findItemByProperty(
-          "id",
+      dispatch({
+        type: "REMOVE_CARD",
+        payload: {
+          id,
           parentColumnId,
-          previousColumns
-        );
-        if (!parentColumn) throw new Error("Parent column not found");
-
-        const newParentColumn: Column = {
-          ...parentColumn,
-          cardsId: parentColumn.cardsId.filter((cardId) => cardId !== id),
-        };
-
-        return previousColumns.map((column) =>
-          column.id === parentColumnId ? newParentColumn : column
-        );
+        },
       });
     },
     []
@@ -169,24 +104,16 @@ function BoardProvider({ children }: BoardProviderProps): JSX.Element {
   const addColumn: BoardContext["addColumn"] = useCallback((column) => {
     const id = `column_${Date.now()}`;
     const newColumn = { id, ...column };
-    setColumns((previousColumns) => previousColumns.concat(newColumn));
+    dispatch({ type: "ADD_COLUMN", payload: newColumn });
+
     return newColumn;
   }, []);
 
   const editColumn: BoardContext["editColumn"] = useCallback(
     (id, updatedFields) => {
-      const column = findItemByProperty("id", id, columns);
-      if (!column) throw new Error("Column not found");
-
-      setColumns((previousColumns) =>
-        previousColumns.map((currentColumn) =>
-          currentColumn.id === column.id
-            ? { ...column, ...updatedFields }
-            : currentColumn
-        )
-      );
+      dispatch({ type: "EDIT_COLUMN", payload: { id, ...updatedFields } });
     },
-    [columns]
+    []
   );
 
   const contextValue: BoardContext = useMemo(
