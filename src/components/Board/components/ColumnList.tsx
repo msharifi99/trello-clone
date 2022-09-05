@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
+import { Column as ColumnType } from "@types";
 import Column from "components/Column";
-import useBoard from "hooks/useBoard";
 import { spacings } from "styles/variables";
 
 const List = styled.ol`
@@ -18,10 +18,10 @@ const ListItem = styled.li`
 
 type ColumnListProps = {
   className?: string;
+  columns: ColumnType[];
 };
 
-function ColumnList({ className }: ColumnListProps): JSX.Element {
-  const { columns } = useBoard();
+function ColumnList({ className, columns }: ColumnListProps): JSX.Element {
   return (
     <List className={className}>
       {columns.map((column) => (
