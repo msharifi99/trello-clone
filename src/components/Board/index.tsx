@@ -1,6 +1,6 @@
 import useBoard from "hooks/useBoard";
 import { ComponentProps } from "react";
-import BoardContainer from "./components/BoardContainer";
+import BoardContainer from "./components/Container";
 import ColumnList from "./components/ColumnList";
 
 function Board(): JSX.Element {
