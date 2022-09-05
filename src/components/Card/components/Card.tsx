@@ -36,7 +36,7 @@ const StyledActionButton = styled.button`
   }
 `;
 
-export type CardContainerProps = PropsWithChildren<{
+export type CardProps = PropsWithChildren<{
   cardTitle: string;
   cardDescription: string;
   isEditing: boolean;
@@ -45,7 +45,7 @@ export type CardContainerProps = PropsWithChildren<{
     description: string;
   };
   onInputChange: (
-    inputName: keyof CardContainerProps["inputValues"],
+    inputName: keyof CardProps["inputValues"],
     e: ChangeEvent<HTMLInputElement>
   ) => void;
   onEditButtonClick: ComponentProps<"button">["onClick"];
@@ -53,7 +53,7 @@ export type CardContainerProps = PropsWithChildren<{
   onRemove: ComponentProps<"button">["onClick"];
 }>;
 
-function CardContainer({
+function Card({
   cardTitle,
   cardDescription,
   isEditing,
@@ -63,7 +63,7 @@ function CardContainer({
   onSave,
   inputValues,
   children,
-}: CardContainerProps): JSX.Element {
+}: CardProps): JSX.Element {
   return (
     <StyledSection>
       <StyledHeader>
@@ -103,4 +103,4 @@ function CardContainer({
   );
 }
 
-export default CardContainer;
+export default Card;

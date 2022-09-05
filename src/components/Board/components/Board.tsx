@@ -27,9 +27,9 @@ const StyledTitle = styled.h2`
   font-weight: bold;
 `;
 
-type BoardContainerProps = PropsWithChildren<{}>;
+type BoardProps = PropsWithChildren<{}>;
 
-function BoardContainer({ children }: BoardContainerProps): JSX.Element {
+function Board({ children }: BoardProps): JSX.Element {
   return (
     <article>
       <StyledHeader>
@@ -40,4 +40,4 @@ function BoardContainer({ children }: BoardContainerProps): JSX.Element {
   );
 }
 
-export default BoardContainer;
+export default Board;

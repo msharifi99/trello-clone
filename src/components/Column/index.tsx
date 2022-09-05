@@ -5,7 +5,7 @@ import useColumn from "hooks/useColumn";
 import { useState } from "react";
 import { spacings } from "styles/variables";
 import AddCardButton from "./components/AddCardButton";
-import ColumnContainer from "./components/Container";
+import Column from "./components/Column";
 
 const CardList = styled.ol`
   margin-bottom: ${spacings.sm};
@@ -21,7 +21,7 @@ type ColumnProps = {
   id: ColumnType["id"];
 };
 
-function Column({ id }: ColumnProps): JSX.Element {
+function ColumnContainer({ id }: ColumnProps): JSX.Element {
   const {
     column,
     editColumn,
@@ -47,7 +47,7 @@ function Column({ id }: ColumnProps): JSX.Element {
   };
 
   return (
-    <ColumnContainer
+    <Column
       columnTitle={column.title}
       isEditing={isEditing}
       columnTitleInputValue={columnInputTitle}
@@ -63,8 +63,8 @@ function Column({ id }: ColumnProps): JSX.Element {
         ))}
       </CardList>
       <AddCardButton onClick={handleAddCard} />
-    </ColumnContainer>
+    </Column>
   );
 }
 
-export default Column;
+export default ColumnContainer;

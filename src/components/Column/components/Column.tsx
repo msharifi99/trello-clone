@@ -35,7 +35,7 @@ const StyledActionButton = styled.button`
   margin-top: ${spacings.xs};
 `;
 
-type ContainerProps = PropsWithChildren<{
+type ColumnProps = PropsWithChildren<{
   isEditing: boolean;
   columnTitle: string;
   columnTitleInputValue: string;
@@ -44,7 +44,7 @@ type ContainerProps = PropsWithChildren<{
   onSave: ComponentProps<"form">["onSubmit"];
 }>;
 
-function ColumnContainer({
+function Column({
   children,
   isEditing,
   columnTitle,
@@ -52,7 +52,7 @@ function ColumnContainer({
   onColumnTitleInputChange,
   onEditColumnClick,
   onSave,
-}: ContainerProps) {
+}: ColumnProps) {
   return (
     <StyledContainer>
       <StyledHeader>
@@ -81,4 +81,4 @@ function ColumnContainer({
   );
 }
 
-export default ColumnContainer;
+export default Column;

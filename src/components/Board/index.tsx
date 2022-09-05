@@ -1,6 +1,6 @@
 import useBoard from "hooks/useBoard";
 import { ComponentProps } from "react";
-import BoardContainer from "./components/Container";
+import Board from "./components/Board";
 import ColumnList from "./components/ColumnList";
 import styled from "@emotion/styled";
 import { spacings } from "styles/variables";
@@ -10,7 +10,7 @@ const StyledColumnList = styled(ColumnList)`
   margin-right: ${spacings.sm};
 `;
 
-function Board(): JSX.Element {
+function BoardContainer(): JSX.Element {
   const { addColumn, setEditingColumnId, columns } = useBoard();
 
   const handleAddColumn: ComponentProps<"button">["onClick"] = () => {
@@ -19,11 +19,11 @@ function Board(): JSX.Element {
   };
 
   return (
-    <BoardContainer>
+    <Board>
       {Boolean(columns.length) && <StyledColumnList columns={columns} />}
       <AddColumnButton onClick={handleAddColumn} />
-    </BoardContainer>
+    </Board>
   );
 }
 
-export default Board;
+export default BoardContainer;
