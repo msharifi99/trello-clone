@@ -1,11 +1,15 @@
 import styled from "@emotion/styled";
 import { ComponentProps } from "react";
-import { fontSizes, mainContainerPadding } from "styles/variables";
+import { breakpoints, columnWidth, fontSizes } from "styles/variables";
 
 const StyledButton = styled.button`
-  width: calc(100vw - ${mainContainerPadding.sm} * 2);
+  width: ${columnWidth.sm};
   display: block;
   font-size: ${fontSizes.md};
+
+  @media (min-width: ${breakpoints.sm}) {
+    width: ${columnWidth.md};
+  }
 `;
 
 type AddColumnButtonProps = ComponentProps<"button">;

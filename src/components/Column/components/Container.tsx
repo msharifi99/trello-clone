@@ -1,16 +1,25 @@
 import styled from "@emotion/styled";
 import Input from "components/Input";
 import { ComponentProps, PropsWithChildren } from "react";
-import { fontSizes, mainContainerPadding, spacings } from "styles/variables";
+import {
+  breakpoints,
+  columnWidth,
+  fontSizes,
+  spacings,
+} from "styles/variables";
 
 const StyledContainer = styled.section`
-  width: calc(100vw - ${mainContainerPadding.sm} * 2);
+  width: ${columnWidth.sm};
   height: 100%;
   padding: ${spacings.sm};
   background-color: #f4f5f7;
   border: 1px solid black;
   border-radius: 2px;
   overflow: auto;
+
+  @media (min-width: ${breakpoints.sm}) {
+    width: ${columnWidth.md};
+  }
 `;
 
 const StyledHeader = styled.header`
