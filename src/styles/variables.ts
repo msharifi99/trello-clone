@@ -24,4 +24,16 @@ const mainContainerPadding = {
   sm: spacings.sm,
 };
 
-export { spacings, fontSizes, breakpoints, headerHeight, mainContainerPadding };
+const columnWidth = {
+  sm: `calc(100vw - ${mainContainerPadding.sm} * 2)`,
+  md: "20rem",
+};
+
+export {
+  spacings,
+  fontSizes,
+  breakpoints,
+  headerHeight,
+  mainContainerPadding,
+  columnWidth,
+};
