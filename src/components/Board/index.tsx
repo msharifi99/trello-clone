@@ -5,7 +5,7 @@ import {
   mainContainerPadding,
   spacings,
 } from "styles/variables";
-import ColumnList from "./ColumnList";
+import ColumnList from "./components/ColumnList";
 
 const boardHeaderHeight = "2rem";
 const StyledColumnList = styled(ColumnList)`
