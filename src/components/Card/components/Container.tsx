@@ -1,4 +1,40 @@
+import styled from "@emotion/styled";
 import { ChangeEvent, ComponentProps, PropsWithChildren } from "react";
+import { fontSizes, spacings } from "styles/variables";
+
+const StyledSection = styled.section`
+  padding: ${spacings.xs};
+  border: 1px solid #000;
+  border-radius: 2px;
+  background-color: #dfe2e7;
+`;
+
+const StyledHeader = styled.header`
+  margin-bottom: ${spacings.xs};
+`;
+
+const StyledTitle = styled.h2`
+  font-size: ${fontSizes.md};
+  font-weight: bold;
+`;
+
+const StyledDescriptionWrapper = styled.div`
+  margin-bottom: ${spacings.sm};
+`;
+
+const StyledDescription = styled.p`
+  font-size: ${fontSizes.md};
+`;
+
+const StyledContent = styled.footer`
+  margin-bottom: ${spacings.xs};
+`;
+
+const StyledActionButton = styled.button`
+  & + & {
+    margin-left: ${spacings.xs};
+  }
+`;
 
 export type CardContainerProps = PropsWithChildren<{
   cardTitle: string;
@@ -29,10 +65,10 @@ function CardContainer({
   children,
 }: CardContainerProps): JSX.Element {
   return (
-    <section>
-      <header>
+    <StyledSection>
+      <StyledHeader>
         {!isEditing ? (
-          <h2>{cardTitle}</h2>
+          <StyledTitle>{cardTitle}</StyledTitle>
         ) : (
           <input
             name="title"
@@ -40,23 +76,30 @@ function CardContainer({
             onChange={(e) => onInputChange("title", e)}
           />
         )}
+      </StyledHeader>
+      <StyledDescriptionWrapper>
         {!isEditing ? (
-          <button onClick={onEditButtonClick}>Edit</button>
+          <StyledDescription>{cardDescription}</StyledDescription>
         ) : (
-          <button onClick={onSave}>Save</button>
+          <input
+            name="description"
+            value={inputValues.description}
+            onChange={(e) => onInputChange("description", e)}
+          />
         )}
-        <button onClick={onRemove}>Remove</button>
-      </header>
-      {!isEditing ? (
-        <p>{cardDescription}</p>
-      ) : (
-        <input
-          value={inputValues.description}
-          onChange={(e) => onInputChange("description", e)}
-        />
-      )}
-      {children}
-    </section>
+      </StyledDescriptionWrapper>
+      <StyledContent>{children}</StyledContent>
+      <footer>
+        {!isEditing ? (
+          <StyledActionButton onClick={onEditButtonClick}>
+            Edit
+          </StyledActionButton>
+        ) : (
+          <StyledActionButton onClick={onSave}>Save</StyledActionButton>
+        )}
+        <StyledActionButton onClick={onRemove}>Remove</StyledActionButton>
+      </footer>
+    </StyledSection>
   );
 }
 

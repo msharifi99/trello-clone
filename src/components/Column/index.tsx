@@ -11,6 +11,12 @@ const CardList = styled.ol`
   margin-bottom: ${spacings.sm};
 `;
 
+const CardListItem = styled.li`
+  & + & {
+    margin-top: ${spacings.xs};
+  }
+`;
+
 type ColumnProps = {
   id: ColumnType["id"];
 };
@@ -51,9 +57,9 @@ function Column({ id }: ColumnProps): JSX.Element {
     >
       <CardList>
         {column.cardsId.map((id) => (
-          <li>
+          <CardListItem>
             <Card id={id} />
-          </li>
+          </CardListItem>
         ))}
       </CardList>
       <AddCardButton onClick={handleAddCard} />
