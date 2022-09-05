@@ -14,8 +14,8 @@ function ColumnsSelect({
   const { columns } = useBoard();
 
   return (
-    <select onChange={onColumnChange}>
-      <option selected disabled>
+    <select onChange={onColumnChange} value={-1}>
+      <option selected disabled value={-1}>
         {columns.length > 1 ? "Select to move" : "No column available"}
       </option>
       {columns
