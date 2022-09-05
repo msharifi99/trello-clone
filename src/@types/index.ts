@@ -10,4 +10,6 @@ type Column = {
   cardsId: Card["id"][];
 };
 
-export type { Card, Column };
+type CardWithoutId = Omit<Card, "id">;
+
+export type { Card, Column, CardWithoutId };

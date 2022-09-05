@@ -1,4 +1,4 @@
-import { Card, Column } from "@types";
+import { Card, CardWithoutId, Column } from "@types";
 import {
   createContext,
   ReactNode,
@@ -26,7 +26,6 @@ type BoardContext = {
   ) => void;
 };
 
-type CardWithoutId = Omit<Card, "id">;
 type ColumnWithoutId = Omit<Column, "id">;
 
 const noop = () => {};
