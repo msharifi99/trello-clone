@@ -25,7 +25,7 @@ function ColumnList({ className, columns }: ColumnListProps): JSX.Element {
   return (
     <List className={className}>
       {columns.map((column) => (
-        <ListItem>
+        <ListItem key={column.id}>
           <Column id={column.id} />
         </ListItem>
       ))}

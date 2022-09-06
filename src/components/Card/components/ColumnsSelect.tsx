@@ -15,13 +15,15 @@ function ColumnsSelect({
 
   return (
     <select onChange={onColumnChange} value={-1}>
-      <option selected disabled value={-1}>
+      <option disabled value={-1}>
         {columns.length > 1 ? "Select to move" : "No column available"}
       </option>
       {columns
         .filter(({ id }) => id !== excludeColumn)
         .map(({ title, id }) => (
-          <option value={id}>{title}</option>
+          <option value={id} key={id}>
+            {title}
+          </option>
         ))}
     </select>
   );

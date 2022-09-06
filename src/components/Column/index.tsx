@@ -62,7 +62,7 @@ function ColumnContainer({ id }: ColumnProps): JSX.Element {
     >
       <CardList>
         {column.cardsId.map((id) => (
-          <CardListItem>
+          <CardListItem key={id}>
             <Card id={id} />
           </CardListItem>
         ))}
