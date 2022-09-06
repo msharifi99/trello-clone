@@ -84,6 +84,20 @@ using `npm`:
 $ npm run test
 ```
 
+To run the tests in watchmode:
+
+using `yarn`:
+
+```bash
+$ yarn test:watch
+```
+
+using `npm`:
+
+```bash
+$ npm run test:watch
+```
+
 ## Build Project
 
 To build the project for production
