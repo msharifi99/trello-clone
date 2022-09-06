@@ -26,6 +26,12 @@ function CardContainer({ id }: CardContainerProps): JSX.Element {
     moveCard(e.target.value);
   };
 
+  const handleEnterEditMode = () => {
+    setTitleInput(card.title);
+    setDescriptionInput(card.description);
+    setIsEditing(true);
+  };
+
   const handleEditCard = () => {
     editCard({ description: cardDescription, title: cardTitle });
     setIsEditing(false);
@@ -49,7 +55,7 @@ function CardContainer({ id }: CardContainerProps): JSX.Element {
       cardTitle={card.title}
       inputValues={{ title: cardTitle, description: cardDescription }}
       isEditing={isEditing}
-      onEditButtonClick={() => setIsEditing(true)}
+      onEditButtonClick={handleEnterEditMode}
       onInputChange={handleOnInputChange}
       onRemove={removeCard}
       onSave={handleEditCard}

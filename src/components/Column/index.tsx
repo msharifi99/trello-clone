@@ -33,6 +33,11 @@ function ColumnContainer({ id }: ColumnProps): JSX.Element {
 
   const [columnInputTitle, setColumnInputTitle] = useState(column.title);
 
+  const handleEnterEditMode = () => {
+    setColumnInputTitle(column.title);
+    setIsEditing(true);
+  };
+
   const handleColumnEdit = () => {
     editColumn({ title: columnInputTitle });
     setIsEditing(false);
@@ -52,7 +57,7 @@ function ColumnContainer({ id }: ColumnProps): JSX.Element {
       isEditing={isEditing}
       columnTitleInputValue={columnInputTitle}
       onColumnTitleInputChange={(e) => setColumnInputTitle(e.target.value)}
-      onEditColumnClick={() => setIsEditing(true)}
+      onEditColumnClick={handleEnterEditMode}
       onSave={handleColumnEdit}
     >
       <CardList>
