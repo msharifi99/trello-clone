@@ -41,19 +41,22 @@ type BoardProviderProps = {
 };
 
 function BoardProvider({ children }: BoardProviderProps): JSX.Element {
-  const { set, get } = useLocalStorage<State>("test-board");
+  const { set: persistBoardState, get: getPersistedBoardState } =
+    useLocalStorage<State>("board-state");
+
+  const initialState = getPersistedBoardState() || {
+    columns: [],
+    cardsById: {},
+  };
 
   const [{ columns, cardsById }, dispatch] = useReducer(
     mainReducer,
-    get() || {
-      columns: [],
-      cardsById: {},
-    }
+    initialState
   );
 
   useEffect(() => {
-    set({ cardsById, columns });
-  }, [columns, cardsById, set]);
+    persistBoardState({ cardsById, columns });
+  }, [columns, cardsById, persistBoardState]);
 
   const [editingColumnId, setEditingColumnId] =
     useState<BoardContext["editingColumnId"]>();
