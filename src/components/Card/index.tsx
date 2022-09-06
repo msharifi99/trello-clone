@@ -2,7 +2,8 @@ import { Card as CardType } from "@types";
 import useCard from "hooks/useCard";
 import { ComponentProps, useState } from "react";
 import ColumnsSelect from "./components/ColumnsSelect";
-import Card, { CardProps } from "./components/Card";
+import Card from "./components/Card";
+import CardForm, { CardFormProps } from "./components/CardForm";
 
 type CardContainerProps = {
   id: CardType["id"];
@@ -19,8 +20,8 @@ function CardContainer({ id }: CardContainerProps): JSX.Element {
     setIsEditing,
   } = useCard(id);
 
-  const [cardTitle, setTitleInput] = useState(card.title);
-  const [cardDescription, setDescriptionInput] = useState(card.description);
+  const [titleInput, setTitleInput] = useState(card.title);
+  const [descriptionInput, setDescriptionInput] = useState(card.description);
 
   const handleMoveCard: ComponentProps<"select">["onChange"] = (e) => {
     moveCard(e.target.value);
@@ -33,11 +34,14 @@ function CardContainer({ id }: CardContainerProps): JSX.Element {
   };
 
   const handleEditCard = () => {
-    editCard({ description: cardDescription, title: cardTitle });
+    editCard({ description: descriptionInput, title: titleInput });
     setIsEditing(false);
   };
 
-  const handleOnInputChange: CardProps["onInputChange"] = (inputName, e) => {
+  const handleOnInputChange: CardFormProps["onInputChange"] = (
+    inputName,
+    e
+  ) => {
     if (inputName === "title") {
       setTitleInput(e.target.value);
       return;
@@ -49,21 +53,34 @@ function CardContainer({ id }: CardContainerProps): JSX.Element {
     }
   };
 
+  const columnSelect = (
+    <ColumnsSelect
+      excludeColumn={parentColumn.id}
+      onColumnChange={handleMoveCard}
+    />
+  );
+
+  if (isEditing) {
+    return (
+      <CardForm
+        inputValues={{ description: descriptionInput, title: titleInput }}
+        onInputChange={handleOnInputChange}
+        onRemove={removeCard}
+        onSave={handleEditCard}
+      >
+        {columnSelect}
+      </CardForm>
+    );
+  }
+
   return (
     <Card
-      cardDescription={card.description}
-      cardTitle={card.title}
-      inputValues={{ title: cardTitle, description: cardDescription }}
-      isEditing={isEditing}
-      onEditButtonClick={handleEnterEditMode}
-      onInputChange={handleOnInputChange}
+      description={card.description}
+      title={card.title}
+      onEdit={handleEnterEditMode}
       onRemove={removeCard}
-      onSave={handleEditCard}
     >
-      <ColumnsSelect
-        excludeColumn={parentColumn.id}
-        onColumnChange={handleMoveCard}
-      />
+      {columnSelect}
     </Card>
   );
 }

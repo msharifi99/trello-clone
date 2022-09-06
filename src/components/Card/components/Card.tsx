@@ -1,34 +1,7 @@
 import styled from "@emotion/styled";
-import { ChangeEvent, ComponentProps, PropsWithChildren } from "react";
+import { ComponentProps, PropsWithChildren } from "react";
 import { fontSizes, spacings } from "styles/variables";
-
-const StyledSection = styled.section`
-  padding: ${spacings.xs};
-  border: 1px solid #000;
-  border-radius: 2px;
-  background-color: #dfe2e7;
-`;
-
-const StyledHeader = styled.header`
-  margin-bottom: ${spacings.xs};
-`;
-
-const StyledTitle = styled.h2`
-  font-size: ${fontSizes.md};
-  font-weight: bold;
-`;
-
-const StyledDescriptionWrapper = styled.div`
-  margin-bottom: ${spacings.sm};
-`;
-
-const StyledDescription = styled.p`
-  font-size: ${fontSizes.md};
-`;
-
-const StyledContent = styled.footer`
-  margin-bottom: ${spacings.xs};
-`;
+import CardTemplate from "./CardTemplate";
 
 const StyledActionButton = styled.button`
   & + & {
@@ -36,70 +9,42 @@ const StyledActionButton = styled.button`
   }
 `;
 
+const StyledTitle = styled.h2`
+  font-size: ${fontSizes.md};
+  font-weight: bold;
+`;
+
+const StyledDescription = styled.p`
+  font-size: ${fontSizes.md};
+`;
+
 export type CardProps = PropsWithChildren<{
-  cardTitle: string;
-  cardDescription: string;
-  isEditing: boolean;
-  inputValues: {
-    title: string;
-    description: string;
-  };
-  onInputChange: (
-    inputName: keyof CardProps["inputValues"],
-    e: ChangeEvent<HTMLInputElement>
-  ) => void;
-  onEditButtonClick: ComponentProps<"button">["onClick"];
-  onSave: ComponentProps<"button">["onClick"];
+  title: string;
+  description: string;
+  onEdit: ComponentProps<"button">["onClick"];
   onRemove: ComponentProps<"button">["onClick"];
 }>;
 
 function Card({
-  cardTitle,
-  cardDescription,
-  isEditing,
-  onEditButtonClick,
-  onInputChange,
+  title,
+  description,
   onRemove,
-  onSave,
-  inputValues,
+  onEdit,
   children,
 }: CardProps): JSX.Element {
   return (
-    <StyledSection>
-      <StyledHeader>
-        {!isEditing ? (
-          <StyledTitle>{cardTitle}</StyledTitle>
-        ) : (
-          <input
-            name="title"
-            value={inputValues.title}
-            onChange={(e) => onInputChange("title", e)}
-          />
-        )}
-      </StyledHeader>
-      <StyledDescriptionWrapper>
-        {!isEditing ? (
-          <StyledDescription>{cardDescription}</StyledDescription>
-        ) : (
-          <input
-            name="description"
-            value={inputValues.description}
-            onChange={(e) => onInputChange("description", e)}
-          />
-        )}
-      </StyledDescriptionWrapper>
-      <StyledContent>{children}</StyledContent>
-      <footer>
-        {!isEditing ? (
-          <StyledActionButton onClick={onEditButtonClick}>
-            Edit
-          </StyledActionButton>
-        ) : (
-          <StyledActionButton onClick={onSave}>Save</StyledActionButton>
-        )}
-        <StyledActionButton onClick={onRemove}>Remove</StyledActionButton>
-      </footer>
-    </StyledSection>
+    <CardTemplate
+      title={<StyledTitle>{title}</StyledTitle>}
+      description={<StyledDescription>{description}</StyledDescription>}
+      action={
+        <>
+          <StyledActionButton onClick={onEdit}>Edit</StyledActionButton>
+          <StyledActionButton onClick={onRemove}>Remove</StyledActionButton>
+        </>
+      }
+    >
+      {children}
+    </CardTemplate>
   );
 }
 
