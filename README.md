@@ -6,15 +6,8 @@ The requirements of the project was:
 
 - A user should be able to add and label columns.
 - A user should be able to add and edit cards.
-- A user should be able to move cards between columns
-- The App's state should be persisted between refreshes
-
-## Concideration
-
-For Implementing the project I concidered:
-
-- Writing test for the main context
-- Using emotion for styling
+- A user should be able to move cards between columns.
+- The App's state should be persisted between refreshes.
 
 ## Folder structure
 
@@ -35,7 +28,7 @@ The Structure of `src` folder is:
     │   ├── components
     │   ├── context
     │   ├── hooks
-    │   ├── styles          # Shared style related files
+    │   ├── styles          # Shared style-related files
     │   └── utils           # Pure utility functions
     └── ...
 
@@ -84,7 +77,7 @@ using `npm`:
 $ npm run test
 ```
 
-To run the tests in watchmode:
+To run the tests in watch mode:
 
 using `yarn`:
 
