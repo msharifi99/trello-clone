@@ -1,9 +1,12 @@
 import styled from "@emotion/styled";
+import Button from "components/Button";
 import { ComponentProps } from "react";
 import { breakpoints, columnWidth, fontSizes } from "styles/variables";
 
-const StyledButton = styled.button`
+const StyledButton = styled(Button)`
   width: ${columnWidth.sm};
+  height: 4rem;
+  flex-shrink: 0;
   display: block;
   font-size: ${fontSizes.md};
 

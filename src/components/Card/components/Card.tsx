@@ -1,9 +1,10 @@
 import styled from "@emotion/styled";
+import Button from "components/Button";
 import { ComponentProps, PropsWithChildren } from "react";
 import { fontSizes, spacings } from "styles/variables";
 import CardTemplate from "./CardTemplate";
 
-const StyledActionButton = styled.button`
+const StyledActionButton = styled(Button)`
   & + & {
     margin-left: ${spacings.xs};
   }

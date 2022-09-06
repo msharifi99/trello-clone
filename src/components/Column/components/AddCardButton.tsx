@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
+import Button from "components/Button";
 import { ComponentProps } from "react";
 
-const StyledButton = styled.button`
+const StyledButton = styled(Button)`
   width: 100%;
 `;
 
