@@ -1,46 +1,135 @@
-# Getting Started with Create React App
+A responsive clone of Trello.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Requirements
 
-## Available Scripts
+The requirements of the project was:
 
-In the project directory, you can run:
+- A user should be able to add and label columns.
+- A user should be able to add and edit cards.
+- A user should be able to move cards between columns
+- The App's state should be persisted between refreshes
 
-### `yarn start`
+## Concideration
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+For Implementing the project I concidered:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Writing test for the main context
+- Using emotion for styling
 
-### `yarn test`
+## Folder structure
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The top level folder structure is:
 
-### `yarn build`
+    .
+    ├── build     # Bundled files after building the project
+    ├── public    # Static files that will be copied directly into build folder
+    ├── src       # Source files
+    └── README.md
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The Structure of `src` folder is:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    .
+    ├── ...
+    ├── src
+    │   ├── @types          # Shared types
+    │   ├── components
+    │   ├── context
+    │   ├── hooks
+    │   ├── styles          # Shared style related files
+    │   └── utils           # Pure utility functions
+    └── ...
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**Each folder can contains the same structure inside itself.** for example:
 
-### `yarn eject`
+    .
+    ├── ...
+    ├── src
+    │   ├── components
+    │   │   ├── Card
+    │   │   │  │── index.tsx
+    │   │   │  │── components   # Components folder can appear again
+    │   │   └── ...
+    │   └── ...
+    └── ...
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Run Project
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+To Run the project in development mode,
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+using `yarn`:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```bash
+$ yarn start
+```
 
-## Learn More
+using `npm`:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+$ npm run start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Test Project
+
+To Run the project's tests,
+
+using `yarn`:
+
+```bash
+$ yarn test
+```
+
+using `npm`:
+
+```bash
+$ npm run test
+```
+
+## Build Project
+
+To build the project for production
+
+using `yarn`:
+
+```bash
+$ yarn build
+```
+
+using `npm`:
+
+```bash
+$ npm run build
+```
+
+The script will build the app for production into the `build` folder.
+
+It correctly bundles React in production mode and optimizes the build for the best performance
+
+The build is minified and the filenames include the hashes.
+
+You can serve the `build` folder using any static serving tool e.g. `live-server`
+
+## Potential Further Imporvments
+
+If I had more time, I would add the following featurs to the product side:
+
+- A user entity, so that cards can be assigned to different users.
+- Label/Tag for cards
+- Implement different filters to find a card easier
+
+on technichal side:
+
+- Add more unit tests
+- Test main flows with e2e testing tools
+- Sync the app's state on different tabs of the browser
+- Add more breakpoints and adjust style's variable based on them
+- Improve error handling and add error traking services
+
+## Screenshots
+
+![Empty state](./screenshots/empty.png)
+
+![One column](./screenshots/one%20column.png)
+
+![Two column with cards](./screenshots/two%20column%20with%20cards.png)
+
+![Multiple columns and cards](./screenshots/multiple%20columns%20and%20cards.png)
